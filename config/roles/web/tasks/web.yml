@@ -5,5 +5,10 @@
 - name: copy cocorena.com config
   template: src=cocorena.com.j2 dest=/etc/nginx/sites-enabled/cocorena.com
 
+- name: copy cocorena.com from github
+  git: repo=https://github.com/cocorena/site.git
+       dest=/var/www/sites/cocorena.com
+       accept_hostkey=True
+
 - name: Install Postfix
   apt: name=postfix state=installed

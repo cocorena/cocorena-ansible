@@ -8,6 +8,9 @@
 - name: Install Vim
   apt: name=vim state=installed
 
+- name: Install git
+  apt: name=git state=latest
+
 - name: Configure Vim as default
   shell: update-alternatives --set editor /usr/bin/vim.basic
 
