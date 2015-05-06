@@ -1,0 +1,13 @@
+config:
+  node_name: 'web-'
+
+web_opts:
+  iad_web:
+    region: "IAD"
+    node_count: 1
+  dfw_web:
+    region: "DFW"
+    node_count: 0
+  ord_web:
+    region: "ORD"
+    node_count: 0

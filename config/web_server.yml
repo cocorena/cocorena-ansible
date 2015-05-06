@@ -1,0 +1,34 @@
+- name: Build web Nodes
+  gather_facts: False
+  hosts: localhost
+  tasks:
+    - name: Build web Nodes
+      local_action:
+        module: rax
+        credentials: ~/.rackspace_cloud_credentials
+        name: "{{ config.node_name }}{{ item.value.region }}-%02d"
+        exact_count: yes
+        flavor: performance1-2
+        image: ubuntu-1504-vivid-vervet-pvhvm
+        region: "{{ item.value.region }}"
+        wait: yes
+        state: present
+        group: web
+        count: "{{ item.value.node_count }}"
+        files:
+           /root/.ssh/authorized_keys: ~/.ssh/id_rsa.pub
+        networks:
+           - private
+           - public
+      with_dict: web_opts
+      register: rax
+
+    - name: Add created servers to web group
+      local_action:
+        module: add_host
+        hostname: "{{ item.name }}"
+        ansible_ssh_host: "{{ item.rax_accessipv4 }}"
+        ansible_ssh_pass: "{{ item.rax_adminpass }} "
+        groupname: web
+      with_items: rax.success
+      when: rax.action =='create'

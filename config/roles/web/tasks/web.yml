@@ -1,0 +1,9 @@
+---
+- name: Install nginx
+  apt: name=nginx state=installed
+
+- name: copy cocorena.com config
+  template: src=cocorena.com.j2 dest=/etc/nginx/sites-enabled/cocorena.com
+
+- name: Install Postfix
+  apt: name=postfix state=installed
